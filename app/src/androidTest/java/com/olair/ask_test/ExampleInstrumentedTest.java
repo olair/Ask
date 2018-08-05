@@ -1,4 +1,4 @@
-package com.olair.ask;
+package com.olair.ask_test;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
