@@ -16,6 +16,10 @@ public class OlairExecutor {
         INSTANCE.mainThread.postDelayed(command, delayedMillis);
     }
 
+    public static void post(Runnable command) {
+        INSTANCE.mainThread.post(command);
+    }
+
 
     private final MainThreadExecutor mainThread;
 
@@ -37,6 +41,10 @@ public class OlairExecutor {
 
         void postDelayed(Runnable command, int delayMillis) {
             mainThreadHandler.postDelayed(command, delayMillis);
+        }
+
+        void post(Runnable command) {
+            mainThreadHandler.post(command);
         }
 
     }
