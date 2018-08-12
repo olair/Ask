@@ -9,11 +9,11 @@ import com.olair.ask.AskTask;
 /**
  * 这个类将用于获取定位信息
  */
-public abstract class AskLocationListener extends AskTask<LocationListener, Location> {
+public abstract class AskLocation extends AskTask<LocationListener, Location> {
 
     private Location mLocation = null;
 
-    protected AskLocationListener(int maxWaitMillis) {
+    protected AskLocation(int maxWaitMillis) {
         super(maxWaitMillis);
     }
 

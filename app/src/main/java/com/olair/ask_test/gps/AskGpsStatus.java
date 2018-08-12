@@ -47,12 +47,15 @@ public abstract class AskGpsStatus extends AskTask<GpsStatus.Listener, Float> {
                     validCount++;
                 }
             }
+            if (get() < validRatio) {
+                postExecute();
+            }
         };
     }
 
     @Override
     public boolean isSuccess() {
-        return validCount / totalCount >= validRatio;
+        return false;
     }
 
     @Override
@@ -69,5 +72,10 @@ public abstract class AskGpsStatus extends AskTask<GpsStatus.Listener, Float> {
             }
         }
         return count;
+    }
+
+    @Override
+    public void onSuccess(Float aFloat) {
+
     }
 }
