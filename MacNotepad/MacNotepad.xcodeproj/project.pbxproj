@@ -52,11 +52,11 @@
 			isa = PBXGroup;
 			children = (
 				A1B2C3D4E5F5FFFF /* MacNotepad */,
-				A1B2C3D4E5F60007 /* Products */,
+				A1B2C3D4E5F6AAAA /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		A1B2C3D4E5F60007 /* Products */ = {
+		A1B2C3D4E5F6AAAA /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				A1B2C3D4E5F60008 /* MacNotepad.app */,
@@ -108,7 +108,7 @@
 				Base,
 			);
 			mainGroup = A1B2C3D4E5F5FFFE;
-			productRefGroup = A1B2C3D4E5F60007 /* Products */;
+			productRefGroup = A1B2C3D4E5F6AAAA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
