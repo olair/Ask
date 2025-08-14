@@ -24,6 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity android:name="com.olair.ask_test.HorizontalCenterScrollDemoActivity"
+            android:label="HorizontalCenterScrollView 演示" />
     </application>
 
 </manifest>
