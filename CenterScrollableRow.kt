@@ -190,57 +190,44 @@ private fun CenterScrollableRowLayout(
     modifier: Modifier = Modifier,
     content: @Composable CenterScrollableRowScope.() -> Unit
 ) {
-    var itemCount by remember { mutableIntStateOf(0) }
+    // 收集所有子项内容
+    val items = remember { mutableStateListOf<@Composable () -> Unit>() }
+    
+    // 创建scope来收集items
+    val scope = remember {
+        object : CenterScrollableRowScope {
+            @Composable
+            override fun item(modifier: Modifier, itemContent: @Composable () -> Unit) {
+                val itemIndex = items.size
+                items.add {
+                    Box(
+                        modifier = modifier.clickable { 
+                            onItemClick(itemIndex) 
+                        }
+                    ) {
+                        itemContent()
+                    }
+                }
+            }
+        }
+    }
+    
+    // 重置并重新收集items
+    items.clear()
+    scope.content()
     
     SubcomposeLayout(
         modifier = modifier.horizontalScroll(scrollState)
     ) { constraints ->
-        // 第一次测量：计算有多少个item
-        itemCount = 0
-        val scope = object : CenterScrollableRowScope {
-            @Composable
-            override fun item(modifier: Modifier, content: @Composable () -> Unit) {
-                itemCount++
-            }
-        }
-        scope.content()
-        
-        // 第二次测量：实际测量和布局所有item
-        val placeables = (0 until itemCount).map { index ->
+        // 测量所有子View
+        val placeables = items.mapIndexed { index, itemContent ->
             subcompose("item_$index") {
-                val itemScope = object : CenterScrollableRowScope {
-                    @Composable
-                    override fun item(modifier: Modifier, itemContent: @Composable () -> Unit) {
-                        if (index == 0) { // 只为当前索引创建内容
-                            Box(
-                                modifier = modifier.clickable { 
-                                    onItemClick(index) 
-                                }
-                            ) {
-                                itemContent()
-                            }
-                        }
-                    }
-                }
-                
-                var currentIndex = 0
-                val finalScope = object : CenterScrollableRowScope {
-                    @Composable
-                    override fun item(modifier: Modifier, itemContent: @Composable () -> Unit) {
-                        if (currentIndex == index) {
-                            Box(
-                                modifier = modifier.clickable { 
-                                    onItemClick(index) 
-                                }
-                            ) {
-                                itemContent()
-                            }
-                        }
-                        currentIndex++
-                    }
-                }
-                finalScope.content()
+                itemContent()
             }.first().measure(constraints.copy(minWidth = 0))
+        }
+        
+        if (placeables.isEmpty()) {
+            return@SubcomposeLayout layout(0, 0) {}
         }
         
         // 计算总宽度和每个item的位置
